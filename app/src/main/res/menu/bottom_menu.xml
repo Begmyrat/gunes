@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item1"
+        android:title="@string/bottomNavItem01"
+        android:icon="@drawable/ic_h"/>
+
+    <item
+        android:id="@+id/item2"
+        android:title="@string/bottomNavItem02"
+        android:icon="@drawable/ic_m"/>
+
+    <item
+        android:id="@+id/item3"
+        android:title="@string/bottomNavItem03"
+        android:icon="@drawable/ic_smile"/>
+
+</menu>
