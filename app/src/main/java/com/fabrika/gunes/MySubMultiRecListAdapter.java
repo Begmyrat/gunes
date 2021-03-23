@@ -1,29 +1,28 @@
 package com.fabrika.gunes;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
+import java.util.List;
 
-public class MySubMakalaRecListAdapter extends RecyclerView.Adapter<MySubMakalaRecListAdapter.ViewHolder> {
+public class MySubMultiRecListAdapter extends RecyclerView.Adapter<MySubMultiRecListAdapter.ViewHolder> {
 
-    private ArrayList<MakalaObject> list;
+    private ArrayList<MakalaModel> list;
     private LayoutInflater mInflater;
     private ItemClickListenerSub mClickListener;
-    private Activity context;
+    private Context context;
 
     // data is passed into the constructor
-    MySubMakalaRecListAdapter(Activity context, ArrayList<MakalaObject> list) {
+    MySubMultiRecListAdapter(Context context, ArrayList<MakalaModel> list) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.list = list;
@@ -40,18 +39,30 @@ public class MySubMakalaRecListAdapter extends RecyclerView.Adapter<MySubMakalaR
     // binds the data to the view and textview in each row
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.t_title.setText(list.get(position).getTitle());
-        holder.t_category.setText(list.get(position).getDate() + "  " + list.get(position).getCategory());
 
-        if(position%3==0){
+//        AuthorModel authorModel = (AuthorModel) list.get(position);
+        MakalaModel m = list.get(position);
+        holder.t_title.setText(m.getMakala_title());
+        holder.t_author.setText(m.getMakala_author());
+        holder.t_category.setText(m.getMakala_category());
+        holder.t_category.setText("Durmushy Kyssalar");
+
+        if(position%5==0){
+            holder.i_image.setImageResource(R.drawable.resim1);
+        }
+        else if(position%4==1){
+            holder.i_image.setImageResource(R.drawable.resim2);
+        }
+        else if(position%4==2){
             holder.i_image.setImageResource(R.drawable.habarsurat);
         }
-        else if(position%3==1){
-            holder.i_image.setImageResource(R.drawable.habarsurat2);
-        }
-        else if(position%3==1){
+        else if(position%4==3){
             holder.i_image.setImageResource(R.drawable.habarsurat3);
         }
+        else{
+            holder.i_image.setImageResource(R.drawable.habarsurat2);
+        }
+
     }
 
     // total number of rows
@@ -62,14 +73,17 @@ public class MySubMakalaRecListAdapter extends RecyclerView.Adapter<MySubMakalaR
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView t_title, t_category;
+
+        TextView t_title, t_author, t_category;
         ImageView i_image;
 
         ViewHolder(View itemView) {
             super(itemView);
+
             t_title = itemView.findViewById(R.id.t_title);
-            t_category = itemView.findViewById(R.id.t_category);
+            t_author = itemView.findViewById(R.id.t_author);
             i_image = itemView.findViewById(R.id.i_image);
+            t_category = itemView.findViewById(R.id.t_category);
 
             itemView.setOnClickListener(this);
         }
@@ -81,19 +95,18 @@ public class MySubMakalaRecListAdapter extends RecyclerView.Adapter<MySubMakalaR
     }
 
     // convenience method for getting data at click position
-    public MakalaObject getItem(int id) {
+    public MakalaModel getItem(int id) {
         return list.get(id);
     }
 
     // allows clicks events to be caught
     public void setClickListenerSub(ItemClickListenerSub itemClickListener) {
         this.mClickListener = itemClickListener;
-
     }
 
     // parent activity will implement this method to respond to click events
     public interface ItemClickListenerSub {
-        void onItemClick(View view, int position, ArrayList<MakalaObject> list);
+        void onItemClick(View view, int position, ArrayList<MakalaModel> list);
     }
 }
 

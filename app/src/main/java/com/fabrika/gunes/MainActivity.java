@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentList.add(new FragmentMakala());
         fragmentList.add(new FragmentHasap());
 
+
         pagerAdapter = new PagerAdapter(this, getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(pagerAdapter);
 

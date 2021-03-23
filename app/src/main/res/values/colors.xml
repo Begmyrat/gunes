@@ -9,4 +9,6 @@
 
     <color name="colorBackground">#fff</color>
 
+    <color name="colorPalette1">#f3f4ed</color>
+
 </resources>

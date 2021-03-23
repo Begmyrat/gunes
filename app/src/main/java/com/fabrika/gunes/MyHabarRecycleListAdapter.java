@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -45,7 +46,7 @@ public class MyHabarRecycleListAdapter extends RecyclerView.Adapter<MyHabarRecyc
 
     // binds the data to the view and textview in each row
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
         holder.textview_body.setText(list.get(position).getBody());
         holder.t_bodyFull.setText(list.get(position).getBody() + list.get(position).getBody()+ list.get(position).getBody()+ list.get(position).getBody());
@@ -68,25 +69,20 @@ public class MyHabarRecycleListAdapter extends RecyclerView.Adapter<MyHabarRecyc
             holder.i_image.setImageResource(R.drawable.habarsurat4);
         }
 
-        Boolean isRead = preferences.getBoolean(""+list.get(position).getId(), false);
+        holder.l_bookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-//        if(isRead){
-//            ColorMatrix cm = new ColorMatrix();
-//            cm.setSaturation(0);
-//            Paint greyscalePaint = new Paint();
-//            greyscalePaint.setColorFilter(new ColorMatrixColorFilter(cm));
-//            // Create a hardware layer with the greyscale paint
-//            holder.r_main.setLayerType(View.LAYER_TYPE_HARDWARE, greyscalePaint);
-//        }
-//        else{
-//            ColorMatrix cm = new ColorMatrix();
-//            cm.setSaturation(1000);
-//            cm.setRGB2YUV();
-//            Paint greyscalePaint = new Paint();
-//            greyscalePaint.setColorFilter(new ColorMatrixColorFilter(cm));
-//            // Create a hardware layer with the greyscale paint
-//            holder.r_main.setLayerType(View.LAYER_TYPE_HARDWARE, greyscalePaint);
-//        }
+                if(list.get(position).isBookmarked){
+                    list.get(position).setBookmarked(false);
+                    holder.i_bookmark.setImageResource(R.drawable.bookmark_unselected);
+                }
+                else{
+                    list.get(position).setBookmarked(true);
+                    holder.i_bookmark.setImageResource(R.drawable.bookmark_selected);
+                }
+            }
+        });
 
     }
 
@@ -99,8 +95,9 @@ public class MyHabarRecycleListAdapter extends RecyclerView.Adapter<MyHabarRecyc
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textview_body, t_bodyFull, t_bodyTest, t_bodyFull2;
-        ImageView i_image;
+        ImageView i_image, i_bookmark;
         RelativeLayout r_box, r_box2, r_main;
+        LinearLayout l_bookmark;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -114,6 +111,8 @@ public class MyHabarRecycleListAdapter extends RecyclerView.Adapter<MyHabarRecyc
             t_bodyTest = itemView.findViewById(R.id.t_body2);
             t_bodyFull2 = itemView.findViewById(R.id.t_body_full2);
             r_main = itemView.findViewById(R.id.r_main);
+            l_bookmark = itemView.findViewById(R.id.l_bookmark);
+            i_bookmark = itemView.findViewById(R.id.i_bookmark);
 
             itemView.setOnClickListener(this);
         }

@@ -12,18 +12,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class FragmentMakala extends Fragment implements MyMakalaRecycleListAdapter.ItemClickListener{
+public class FragmentMakala extends Fragment implements MyRecMultiAdapter.ItemClickListener{
 
     View view;
     Toolbar toolbar;
-    ArrayList<MakalaObject> makalaObjects;
+    ArrayList<MakalaModel> makalaObjects;
     RecyclerView recyclerView;
-    LinearLayoutManager linearLayoutManager;
-    MyMakalaRecycleListAdapter adapter;
+    RecyclerView.LayoutManager layoutManager;
+    MainActivity activity;
+    MyRecMultiAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,53 +47,38 @@ public class FragmentMakala extends Fragment implements MyMakalaRecycleListAdapt
         ((AppCompatActivity) getActivity()).getSupportActionBar().setElevation(0);
         toolbar.setTitle("Iň täze makalalar");
 
+        activity = (MainActivity) getActivity();
         recyclerView = view.findViewById(R.id.recyclerView);
-        linearLayoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
         makalaObjects = new ArrayList<>();
 
-        getMakala();
+        //int viewType, String makala_id, String makala_title, String makala_body, String makala_img_url, String makala_date, String makala_author
 
-        adapter = new MyMakalaRecycleListAdapter(getActivity(), makalaObjects);
+        makalaObjects.add(new MakalaModel(0, "1","Adamlar bilen baglanshykly gyzykly maglumatlar","Adamlar bilen baglanshykly gyzykly maglumatlar","4","22.03.2021","Andrey Ivan"));
+        makalaObjects.add(new MakalaModel(0, "1","Adamlar bilen baglanshykly gyzykly maglumatlar","Adamlar bilen baglanshykly gyzykly maglumatlar","4","22.03.2021","Andrey Ivan"));
+        ArrayList<MakalaModel> subMakala = new ArrayList<>();
+        subMakala.add(new MakalaModel(0, "1","Adamlar bilen baglanshykly gyzykly maglumatlar","Adamlar bilen baglanshykly gyzykly maglumatlar","4","22.03.2021","Andrey Ivan"));
+        subMakala.add(new MakalaModel(0, "1","Adamlar bilen baglanshykly gyzykly maglumatlar","Adamlar bilen baglanshykly gyzykly maglumatlar","4","22.03.2021","Andrey Ivan"));
+        subMakala.add(new MakalaModel(0, "1","Adamlar bilen baglanshykly gyzykly maglumatlar","Adamlar bilen baglanshykly gyzykly maglumatlar","4","22.03.2021","Andrey Ivan"));
+        subMakala.add(new MakalaModel(0, "1","Adamlar bilen baglanshykly gyzykly maglumatlar","Adamlar bilen baglanshykly gyzykly maglumatlar","4","22.03.2021","Andrey Ivan"));
+        subMakala.add(new MakalaModel(0, "1","Adamlar bilen baglanshykly gyzykly maglumatlar","Adamlar bilen baglanshykly gyzykly maglumatlar","4","22.03.2021","Andrey Ivan"));
+        MakalaModel m = new MakalaModel();
+        m.setViewType(1);
+        m.setListMakalaModel(subMakala);
+        makalaObjects.add(m);
+        makalaObjects.add(new MakalaModel(0, "1","Adamlar bilen baglanshykly gyzykly maglumatlar","Adamlar bilen baglanshykly gyzykly maglumatlar","4","22.03.2021","Andrey Ivan"));
+        makalaObjects.add(new MakalaModel(0, "1","Adamlar bilen baglanshykly gyzykly maglumatlar","Adamlar bilen baglanshykly gyzykly maglumatlar","4","22.03.2021","Andrey Ivan"));
+        makalaObjects.add(new MakalaModel(0, "1","Adamlar bilen baglanshykly gyzykly maglumatlar","Adamlar bilen baglanshykly gyzykly maglumatlar","4","22.03.2021","Andrey Ivan"));
+        makalaObjects.add(new MakalaModel(0, "1","Adamlar bilen baglanshykly gyzykly maglumatlar","Adamlar bilen baglanshykly gyzykly maglumatlar","4","22.03.2021","Andrey Ivan"));
+
+        layoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false);
+        adapter = new MyRecMultiAdapter(view.getContext(), makalaObjects);
         recyclerView.setAdapter(adapter);
-        adapter.setClickListener(this);
-
-    }
-
-    private void getMakala() {
-        ArrayList<MakalaObject> subMakala = new ArrayList<>();
-
-        MakalaObject m3 = new MakalaObject();
-        m3.setTitle("Adamzat taryhynda ilkinji bolan waka");
-        m3.setDate("#muzik #ceremony");
-
-        subMakala.add(m3);
-        subMakala.add(m3);
-        subMakala.add(m3);
-        subMakala.add(m3);
-        subMakala.add(m3);
-        subMakala.add(m3);
-
-        MakalaObject m1 = new MakalaObject();
-        m1.setSubMakala(subMakala);
-        makalaObjects.add(m1);
-
-        MakalaObject m2 = new MakalaObject();
-        m2.setRowTitle("Hemmesi");
-        makalaObjects.add(m2);
-
-        for(int i=0;i<10;i++){
-            MakalaObject m = new MakalaObject();
-            m.setTitle("Hello: " + i);
-            m.setDate("Date: " + (i+2020));
-            makalaObjects.add(m);
-        }
-
+        recyclerView.setLayoutManager(layoutManager);
 
     }
 
     @Override
-    public void onItemClick(View view, int position, ArrayList<MakalaObject> list) {
-        Toast.makeText(view.getContext(), ""+list.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+    public void onItemClick(View view, int position, ArrayList<MakalaModel> list) {
+        Toast.makeText(view.getContext(), "vertical: " + list.get(position).getMakala_title() + "\npos: " + position, Toast.LENGTH_SHORT).show();
     }
 }

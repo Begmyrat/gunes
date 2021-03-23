@@ -6,6 +6,7 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -30,6 +31,7 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +45,7 @@ public class FragmentHabar extends Fragment implements MyHabarRecycleListAdapter
     EditText e_search;
     Boolean isSearchVisible;
     RecyclerView recyclerView;
-    ArrayList<HabarObject> habarList;
+    ArrayList<HabarObject> habarList, habarListSearch;
     MyHabarRecycleListAdapter habarAdapter;
     StaggeredGridLayoutManager layoutManager;
     MainActivity activity;
@@ -68,6 +70,8 @@ public class FragmentHabar extends Fragment implements MyHabarRecycleListAdapter
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setElevation(0);
         activity = (MainActivity) getActivity();
+        activity.setSupportActionBar(toolbar);
+
 
         e_search = view.findViewById(R.id.e_search);
         toolbar.setTitle("Habarlar");
@@ -75,6 +79,7 @@ public class FragmentHabar extends Fragment implements MyHabarRecycleListAdapter
         recyclerView.setHasFixedSize(false);
 //        recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
         habarList = new ArrayList<>();
+        habarListSearch = new ArrayList<>();
         layoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         getHabar();
@@ -88,24 +93,24 @@ public class FragmentHabar extends Fragment implements MyHabarRecycleListAdapter
 
     private void getHabar() {
 
-        habarList.add(new HabarObject("","","","","Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("","","","","Lübnan'daki son protestolar Hizbullah ı mı?",""));
-        habarList.add(new HabarObject("","","","","Lübnan'daki son protestolar Hizbullah h ve Emel'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("","","","","Lübnan'daki son protestolar Hizbullah ve Emel'inestolar Hizbullah ve Emel'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("","","","","Lübnan'daki son protestolar Hizbullah ve Elar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki so'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("","","","","Lübnan'daki son protestolar Himı?otestolar Hi otestolar Hi",""));
-        habarList.add(new HabarObject("","","","","Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("","","","","Lübnan'daki son protestolar Hizbullah ı mı?",""));
-        habarList.add(new HabarObject("","","","","Lübnan'daki son protestolar Hizbullah h ve Emel'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("","","","","Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("","","","","Lübnan'daki son protestolar Hizbullah vki so'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("","","","","Lübnan'daki son protestolar Himı?otestolar Hi otestolar Hi",""));
-        habarList.add(new HabarObject("","","","","Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("","","","","Lübnan'daki son protestolar Hizbullah ı mı?",""));
-        habarList.add(new HabarObject("","","","","Lübnan'daki son protestolar Hizbullah h ve Emel'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("","","","","Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("","","","","Lübnan'daki son protestolar Hizbullah ve Elar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki so'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("","","","","Lübnan'daki son protestolar Himı?otestolar Hi otestolar Hi",""));
+        habarList.add(new HabarObject("1","1","1","1","goysana Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?",""));
+        habarList.add(new HabarObject("2","1","1","1","Lübnan'daki son protestolar Hizbullah ı mı?",""));
+        habarList.add(new HabarObject("3","1","1","1","Lübnan'daki son protestolar Hizbullah h ve Emel'in Avn'a mesajı mı?",""));
+        habarList.add(new HabarObject("4","1","1","1","Lübnan'daki son protestolar Hizbullah ve Emel'inestolar Hizbullah ve Emel'in Avn'a mesajı mı?",""));
+        habarList.add(new HabarObject("5","1","1","1","Lübnan'daki hakyky son protestolar Hizbullah ve Elar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki so'in Avn'a mesajı mı?",""));
+        habarList.add(new HabarObject("6","1","1","1","Lübnan'daki son protestolar Himı?otestolar Hi otestolar Hi",""));
+        habarList.add(new HabarObject("7","1","1","1","Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?",""));
+        habarList.add(new HabarObject("8","1","1","1","Lübnan'daki son protestolar Hizbullah ı mı?",""));
+        habarList.add(new HabarObject("9","1","1","1","Lübnan'daki son protestolar Hizbullah h ve Emel'in Avn'a mesajı mı?",""));
+        habarList.add(new HabarObject("10","2","1","1","Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?",""));
+        habarList.add(new HabarObject("11","2","1","1","Lübnan'daki son protestolar Hizbullah vki so'in Avn'a mesajı mı?",""));
+        habarList.add(new HabarObject("12","2","1","1","Lübnan'daki son protestolar Himı?otestolar Hi otestolar Hi",""));
+        habarList.add(new HabarObject("13","2","1","1","Lübnan'daki yasama son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?",""));
+        habarList.add(new HabarObject("14","2","1","1","Lübnan'daki son protestolar Hizbullah ı mı?",""));
+        habarList.add(new HabarObject("15","2","1","1","Lübnan'daki son protestolar Hizbullah h ve Emel'in Avn'a mesajı mı?",""));
+        habarList.add(new HabarObject("16","2","1","1","Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?",""));
+        habarList.add(new HabarObject("17","2","1","1","Lübnan'daki son protestolar Hizbullah ve Elar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki so'in Avn'a mesajı mı?",""));
+        habarList.add(new HabarObject("18","2","1","1","Lübnan'daki son protestolar Himı?otestolar Hi otestolar Hi",""));
 
     }
 
@@ -149,5 +154,71 @@ public class FragmentHabar extends Fragment implements MyHabarRecycleListAdapter
             editor.putBoolean(""+habarList.get(position).getId(), true);
             editor.commit();
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+
+        activity.getMenuInflater().inflate(R.menu.toolbar_items, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setQueryHint("Gözle");
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+
+        MenuItem.OnActionExpandListener onActionExpandListener = new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                getHabar();
+                habarAdapter.notifyDataSetChanged();
+                return false;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                getHabar();
+                habarAdapter.notifyDataSetChanged();
+                return false;
+            }
+        };
+
+        menu.findItem(R.id.action_search).setOnActionExpandListener(onActionExpandListener);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                getHabar();
+                Toast.makeText(activity, "query: " + query, Toast.LENGTH_SHORT).show();
+                habarListSearch.clear();
+                for(int i=0;i<habarList.size();i++){
+                    HabarObject h = habarList.get(i);
+                    System.out.println("helloID: " + h.getId());
+                    System.out.println("helloBODY: " + h.getBody());
+                    System.out.println("helloCAT: " + h.getCategory());
+                    System.out.println("helloTIT: " + h.getTitle());
+                    System.out.println("helloWRIT: " + h.getWriter());
+                    System.out.println();
+
+                    if(h!=null)
+                        if(h.getBody().toLowerCase().contains(query) || h.getCategory().toLowerCase().contains(query) ||
+                                h.getTitle().toLowerCase().contains(query) || h.getWriter().toLowerCase().contains(query)){
+                            habarListSearch.add(h);
+                        }
+                }
+                habarList.clear();
+
+                for(int i=0;i<habarListSearch.size();i++){
+                    habarList.add(habarListSearch.get(i));
+                }
+                habarAdapter.notifyDataSetChanged();
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }

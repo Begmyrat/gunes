@@ -39,7 +39,7 @@
             android:src="@drawable/adam"/>
 
         <TextView
-            android:id="@+id/t_category"
+            android:id="@+id/t_author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="12sp"
@@ -55,7 +55,7 @@
             android:id="@+id/t_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/t_category"
+            android:layout_below="@+id/t_author"
             android:textSize="18sp"
             android:fontFamily="@font/nunitosans_bold"
             android:layout_marginTop="10dp"
@@ -75,6 +75,83 @@
             android:fontFamily="@font/nunitosans_regular"
             android:layout_marginHorizontal="10dp"
             android:layout_below="@+id/t_body"/>
+
+        <org.apmem.tools.layouts.FlowLayout
+            android:id="@+id/flowLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="5dp"
+            android:alpha="0.7"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/t_date">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_background_stroked"
+                android:paddingHorizontal="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal"
+                android:paddingVertical="5dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_eye"/>
+
+                <TextView
+                    android:id="@+id/t_viewed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="12sp"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/nunitosans_regular"
+                    android:textColor="@color/colorBlack"
+                    android:text="1017"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_background_stroked"
+                android:paddingHorizontal="10dp"
+                android:orientation="horizontal"
+                android:paddingVertical="5dp">
+
+                <TextView
+                    android:id="@+id/t_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/nunitosans_regular"
+                    android:textColor="@color/colorBlack"
+                    android:text="Umumy"/>
+
+            </LinearLayout>
+
+        </org.apmem.tools.layouts.FlowLayout>
+
+        <LinearLayout
+            android:id="@+id/l_bookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="5dp"
+            android:layout_below="@+id/flowLayout"
+            android:paddingHorizontal="10dp">
+
+            <ImageView
+                android:id="@+id/i_bookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/bookmark_unselected"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
 
@@ -148,6 +225,82 @@
                 android:fontFamily="@font/nunitosans_regular"
                 android:layout_marginHorizontal="10dp"
                 android:layout_below="@+id/t_body2"/>
+
+            <org.apmem.tools.layouts.FlowLayout
+                android:id="@+id/flowLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="5dp"
+                android:alpha="0.7"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/t_date2">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_background_stroked"
+                    android:paddingHorizontal="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="horizontal"
+                    android:paddingVertical="5dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_eye"/>
+
+                    <TextView
+                        android:id="@+id/t_viewed2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="12sp"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/nunitosans_regular"
+                        android:textColor="@color/colorBlack"
+                        android:text="1017"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_background_stroked"
+                    android:paddingHorizontal="10dp"
+                    android:orientation="horizontal"
+                    android:paddingVertical="5dp">
+
+                    <TextView
+                        android:id="@+id/t_category3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/nunitosans_regular"
+                        android:textColor="@color/colorBlack"
+                        android:text="Umumy"/>
+
+                </LinearLayout>
+
+            </org.apmem.tools.layouts.FlowLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/flowLayout2"
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="10dp">
+
+                <ImageView
+                    android:id="@+id/i_bookmark2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/bookmark_unselected"/>
+
+            </LinearLayout>
 
         </RelativeLayout>
 

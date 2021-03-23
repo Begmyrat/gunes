@@ -2,6 +2,7 @@ package com.fabrika.gunes;
 
 public class HabarObject {
     String category, writer, body, date, title, id;
+    boolean isBookmarked = false;
 
     public String getCategory() {
         return category;
@@ -9,6 +10,14 @@ public class HabarObject {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public boolean isBookmarked() {
+        return isBookmarked;
+    }
+
+    public void setBookmarked(boolean bookmarked) {
+        isBookmarked = bookmarked;
     }
 
     public String getWriter() {
@@ -56,6 +65,7 @@ public class HabarObject {
         this.writer = writer;
         this.body = body;
         this.date = date;
+        this.title = title;
         this.id = id;
     }
 }
