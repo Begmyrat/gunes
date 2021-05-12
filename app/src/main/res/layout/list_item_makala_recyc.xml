@@ -27,8 +27,8 @@
                 android:id="@+id/i_image"
                 android:layout_width="match_parent"
                 android:layout_height="91dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/adam" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/mini_map" />
 
             <TextView
                 android:id="@+id/t_title"

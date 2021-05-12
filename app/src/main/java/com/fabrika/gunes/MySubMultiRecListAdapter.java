@@ -1,7 +1,8 @@
 package com.fabrika.gunes;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MySubMultiRecListAdapter extends RecyclerView.Adapter<MySubMultiRecListAdapter.ViewHolder> {
 
@@ -20,12 +24,18 @@ public class MySubMultiRecListAdapter extends RecyclerView.Adapter<MySubMultiRec
     private LayoutInflater mInflater;
     private ItemClickListenerSub mClickListener;
     private Context context;
+    SharedPreferences preferences;
+    String isWifiEnabled = "0", isOnlyWifi = "0";
 
     // data is passed into the constructor
     MySubMultiRecListAdapter(Context context, ArrayList<MakalaModel> list) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.list = list;
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        isWifiEnabled = preferences.getString("wifi_enabled", "0");
+        isOnlyWifi = preferences.getString("wifi_only", "0");
     }
 
     // inflates the row layout from xml when needed
@@ -42,25 +52,24 @@ public class MySubMultiRecListAdapter extends RecyclerView.Adapter<MySubMultiRec
 
 //        AuthorModel authorModel = (AuthorModel) list.get(position);
         MakalaModel m = list.get(position);
-        holder.t_title.setText(m.getMakala_title());
-        holder.t_author.setText(m.getMakala_author());
-        holder.t_category.setText(m.getMakala_category());
-        holder.t_category.setText("Durmushy Kyssalar");
+        holder.t_title.setText(m.getArticle_title());
+        holder.t_author.setText(m.getArticle_author());
+        holder.t_category.setText(m.getArticle_category());
 
-        if(position%5==0){
-            holder.i_image.setImageResource(R.drawable.resim1);
+        String url = list.get(position).getArticle_img_url();
+        if(isOnlyWifi.equals("1") && isWifiEnabled.equals("0")){
+            url = "sasa";
         }
-        else if(position%4==1){
-            holder.i_image.setImageResource(R.drawable.resim2);
-        }
-        else if(position%4==2){
-            holder.i_image.setImageResource(R.drawable.habarsurat);
-        }
-        else if(position%4==3){
-            holder.i_image.setImageResource(R.drawable.habarsurat3);
-        }
-        else{
-            holder.i_image.setImageResource(R.drawable.habarsurat2);
+
+        try {
+            Glide
+                    .with(context)
+                    .load(new URL(url))
+                    .centerCrop()
+                    .placeholder(R.drawable.mini_map)
+                    .into(holder.i_image);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
 
     }

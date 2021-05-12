@@ -4,31 +4,49 @@ import java.util.ArrayList;
 
 public class MakalaModel {
     int viewType;
-    String makala_id, makala_title, makala_body, makala_img_url, makala_date, makala_author, makala_viewed_number, makala_category;
-    String makala_comments, makala_like_number, makala_dislike_number;
+    String makala_id, article_title, article_body, article_img_url, article_date, article_author, article_category;
+    String makala_comments;
+    long article_view_number, article_like_number, article_dislike_number, article_number;
     ArrayList<MakalaModel> listMakalaModel;
+    boolean article_valid = false;
 
     public ArrayList<MakalaModel> getListMakalaModel() {
         return listMakalaModel;
+    }
+
+    public boolean isArticle_valid() {
+        return article_valid;
+    }
+
+    public long getArticle_number() {
+        return article_number;
+    }
+
+    public void setArticle_number(long article_number) {
+        this.article_number = article_number;
+    }
+
+    public void setArticle_valid(boolean article_valid) {
+        this.article_valid = article_valid;
     }
 
     public void setListMakalaModel(ArrayList<MakalaModel> listMakalaModel) {
         this.listMakalaModel = listMakalaModel;
     }
 
-    public MakalaModel(int viewType, String makala_id, String makala_title, String makala_body, String makala_img_url, String makala_date, String makala_author, String makala_viewed_number, String makala_category, String makala_comments, String makala_like_number, String makala_dislike_number) {
+    public MakalaModel(int viewType, String makala_id, String article_title, String article_body, String article_img_url, String article_date, String article_author, long article_view_number, String article_category, String makala_comments, long article_like_number, long article_dislike_number) {
         this.viewType = viewType;
         this.makala_id = makala_id;
-        this.makala_title = makala_title;
-        this.makala_body = makala_body;
-        this.makala_img_url = makala_img_url;
-        this.makala_date = makala_date;
-        this.makala_author = makala_author;
-        this.makala_viewed_number = makala_viewed_number;
-        this.makala_category = makala_category;
+        this.article_title = article_title;
+        this.article_body = article_body;
+        this.article_img_url = article_img_url;
+        this.article_date = article_date;
+        this.article_author = article_author;
+        this.article_view_number = article_view_number;
+        this.article_category = article_category;
         this.makala_comments = makala_comments;
-        this.makala_like_number = makala_like_number;
-        this.makala_dislike_number = makala_dislike_number;
+        this.article_like_number = article_like_number;
+        this.article_dislike_number = article_dislike_number;
     }
 
     public int getViewType() {
@@ -47,60 +65,60 @@ public class MakalaModel {
         this.makala_id = makala_id;
     }
 
-    public String getMakala_title() {
-        return makala_title;
+    public String getArticle_title() {
+        return article_title;
     }
 
-    public void setMakala_title(String makala_title) {
-        this.makala_title = makala_title;
+    public void setArticle_title(String article_title) {
+        this.article_title = article_title;
     }
 
-    public String getMakala_body() {
-        return makala_body;
+    public String getArticle_body() {
+        return article_body;
     }
 
-    public void setMakala_body(String makala_body) {
-        this.makala_body = makala_body;
+    public void setArticle_body(String article_body) {
+        this.article_body = article_body;
     }
 
-    public String getMakala_img_url() {
-        return makala_img_url;
+    public String getArticle_img_url() {
+        return article_img_url;
     }
 
-    public void setMakala_img_url(String makala_img_url) {
-        this.makala_img_url = makala_img_url;
+    public void setArticle_img_url(String article_img_url) {
+        this.article_img_url = article_img_url;
     }
 
-    public String getMakala_date() {
-        return makala_date;
+    public String getArticle_date() {
+        return article_date;
     }
 
-    public void setMakala_date(String makala_date) {
-        this.makala_date = makala_date;
+    public void setArticle_date(String article_date) {
+        this.article_date = article_date;
     }
 
-    public String getMakala_author() {
-        return makala_author;
+    public String getArticle_author() {
+        return article_author;
     }
 
-    public void setMakala_author(String makala_author) {
-        this.makala_author = makala_author;
+    public void setArticle_author(String article_author) {
+        this.article_author = article_author;
     }
 
-    public String getMakala_viewed_number() {
-        return makala_viewed_number;
+    public long getArticle_view_number() {
+        return article_view_number;
     }
 
-    public void setMakala_viewed_number(String makala_viewed_number) {
-        this.makala_viewed_number = makala_viewed_number;
+    public void setArticle_view_number(long article_view_number) {
+        this.article_view_number = article_view_number;
     }
 
-    public String getMakala_category() {
-        return makala_category;
+    public String getArticle_category() {
+        return article_category;
     }
 
-    public void setMakala_category(String makala_category) {
-        this.makala_category = makala_category;
+    public void setArticle_category(String article_category) {
+        this.article_category = article_category;
     }
 
     public String getMakala_comments() {
@@ -111,30 +129,30 @@ public class MakalaModel {
         this.makala_comments = makala_comments;
     }
 
-    public String getMakala_like_number() {
-        return makala_like_number;
+    public long getArticle_like_number() {
+        return article_like_number;
     }
 
-    public void setMakala_like_number(String makala_like_number) {
-        this.makala_like_number = makala_like_number;
+    public void setArticle_like_number(long article_like_number) {
+        this.article_like_number = article_like_number;
     }
 
-    public String getMakala_dislike_number() {
-        return makala_dislike_number;
+    public long getArticle_dislike_number() {
+        return article_dislike_number;
     }
 
-    public void setMakala_dislike_number(String makala_dislike_number) {
-        this.makala_dislike_number = makala_dislike_number;
+    public void setArticle_dislike_number(long article_dislike_number) {
+        this.article_dislike_number = article_dislike_number;
     }
 
-    public MakalaModel(int viewType, String makala_id, String makala_title, String makala_body, String makala_img_url, String makala_date, String makala_author) {
+    public MakalaModel(int viewType, String makala_id, String article_title, String article_body, String article_img_url, String article_date, String article_author) {
         this.viewType = viewType;
         this.makala_id = makala_id;
-        this.makala_title = makala_title;
-        this.makala_body = makala_body;
-        this.makala_img_url = makala_img_url;
-        this.makala_date = makala_date;
-        this.makala_author = makala_author;
+        this.article_title = article_title;
+        this.article_body = article_body;
+        this.article_img_url = article_img_url;
+        this.article_date = article_date;
+        this.article_author = article_author;
     }
 
     public MakalaModel(){}

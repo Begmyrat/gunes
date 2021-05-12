@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    android:paddingVertical="5dp"
+    android:paddingHorizontal="15dp">
+
+    <View
+        android:id="@+id/v_2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorBlack"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"/>
+
+    <RelativeLayout
+        android:id="@+id/r_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/v_2">
+
+        <TextView
+            android:id="@+id/t_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="WHAT TO COOK"
+            android:textSize="14sp"
+            android:fontFamily="@font/nunitosans_black"
+            android:textStyle="bold"
+            android:textColor="@color/colorBlack"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/t_view"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_view"/>
+
+        <TextView
+            android:id="@+id/t_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="24"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textSize="12sp"
+            android:fontFamily="@font/nunitosans_bold"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/colorBlack"/>
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/t_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorBlack"
+        android:fontFamily="@font/verdana"
+        android:textSize="18sp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/r_top"
+        android:text="New Recipes for Your Rotation Add vegan tantanment and roasted rhubarb cobbler to your weekend cooking plans."/>
+
+    <ImageView
+        android:id="@+id/i_image"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:src="@drawable/mini_map"
+        android:transitionName="profile"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="7dp"
+        android:layout_below="@+id/t_title"/>
+
+    <RelativeLayout
+        android:id="@+id/r_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/i_image">
+
+        <TextView
+            android:id="@+id/t_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="27.04.2021"
+            android:textSize="12sp"
+            android:fontFamily="@font/nunitosans_light"
+            android:textStyle="bold"
+            android:alpha="0.6"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/colorBlack"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/t_view2"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_view"/>
+
+        <TextView
+            android:id="@+id/t_view2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="24"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textSize="12sp"
+            android:fontFamily="@font/nunitosans_bold"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/colorBlack"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorBlack"
+        android:layout_below="@+id/r_bottom"
+        android:layout_marginTop="15dp"/>
+
+</RelativeLayout>

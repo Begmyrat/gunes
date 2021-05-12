@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".ActivityMakala">
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/buttonLike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layout_above="@+id/adView"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"
+        app:srcCompat="@drawable/like_white" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:outlineAmbientShadowColor="@color/colorBackground"
+            android:outlineSpotShadowColor="@color/colorBackground"
+            style="@style/HeaderBar"
+            android:textAlignment="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="clickBack"
+                android:src="@drawable/ic_baseline_arrow_back_24"/>
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Serdaryň pikirleri"-->
+<!--                android:textSize="16sp"-->
+<!--                android:layout_marginLeft="30dp"-->
+<!--                android:textColor="@color/colorBlack"/>-->
+
+
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appbar"
+        android:layout_above="@+id/adView">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/l_top"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:elevation="2dp"
+                android:layout_marginHorizontal="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/t_categroy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/nunitosans_bold"
+                    android:text="#Maşgala"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginHorizontal="15dp"
+                    android:background="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/t_habar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/nunitosans_extra_bold"
+                    android:text="Makala"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/t_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunitosans_light"
+                    android:text="28.04.2021"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/t_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunitosans_light"
+                android:layout_below="@+id/l_top"
+                android:text="Receptions on Wheels: the Food Trucks Roll In"
+                android:textColor="@color/colorBlack"
+                android:textSize="24sp"
+                android:layout_marginHorizontal="20dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/t_body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Some couples are mobilizing their wedding meals during the pandemic. Here are six trucks that will feed your wedding guests."
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_below="@+id/t_title"
+                android:fontFamily="@font/nunitosans_regular"/>
+
+            <ImageView
+                android:id="@+id/i_image"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_below="@+id/t_body1"
+                android:layout_marginTop="10dp"
+                android:transitionName="profile"
+                android:scaleType="fitCenter"
+                android:src="@drawable/mini_map"/>
+
+            <TextView
+                android:id="@+id/t_authorBelow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\'Serdaryň pikirleri\' tarapyndan..."
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"
+                android:layout_below="@+id/i_image"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="20dp"
+                android:fontFamily="@font/nunitosans_bold"/>
+
+            <TextView
+                android:id="@+id/t_dateBelow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="April 27, 2021"
+                android:textSize="12sp"
+                android:textColor="@color/colorBlack"
+                android:layout_below="@+id/t_authorBelow"
+                android:layout_marginHorizontal="20dp"
+                android:fontFamily="@font/nunitosans_light"/>
+
+
+            <TextView
+                android:id="@+id/t_body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Some couples are mobilizing their wedding meals during the pandemic. Here are six trucks that will feed your wedding guests. Some couples are mobilizing their wedding meals during the pandemic. Here are six trucks that will feed your wedding guests. Some couples are mobilizing their wedding meals during the pandemic. Here are six trucks that will feed your wedding guests. Some couples are mobilizing their wedding meals during the pandemic. Here are six trucks that will feed your wedding guests. Some couples are mobilizing their wedding meals during the pandemic. Here are six trucks that will feed your wedding guests. Some couples are mobilizing their wedding meals during the pandemic. Here are six trucks that will feed your wedding guests. Some couples are mobilizing their wedding meals during the pandemic. Here are six trucks that will feed your wedding guests.\n"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_below="@+id/t_dateBelow"
+                android:fontFamily="@font/nunitosans_regular"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+    </com.google.android.gms.ads.AdView>
+
+
+</RelativeLayout>

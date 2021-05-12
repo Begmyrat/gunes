@@ -4,16 +4,25 @@
     <item
         android:id="@+id/item1"
         android:title="@string/bottomNavItem01"
+        android:iconTint="@color/colorWhite"
         android:icon="@drawable/ic_h"/>
 
     <item
         android:id="@+id/item2"
         android:title="@string/bottomNavItem02"
+        android:iconTint="@color/colorWhite"
         android:icon="@drawable/ic_m"/>
 
     <item
         android:id="@+id/item3"
         android:title="@string/bottomNavItem03"
+        android:iconTint="@color/colorWhite"
+        android:icon="@drawable/ic_b"/>
+
+    <item
+        android:id="@+id/item4"
+        android:title="@string/bottomNavItem04"
+        android:iconTint="@color/colorWhite"
         android:icon="@drawable/ic_smile"/>
 
 </menu>

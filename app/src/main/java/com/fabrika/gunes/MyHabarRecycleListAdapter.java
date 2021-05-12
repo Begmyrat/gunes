@@ -6,6 +6,9 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.preference.PreferenceManager;
+import android.transition.Slide;
+import android.transition.Transition;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +16,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MyHabarRecycleListAdapter extends RecyclerView.Adapter<MyHabarRecycleListAdapter.ViewHolder> {
 
@@ -27,6 +40,11 @@ public class MyHabarRecycleListAdapter extends RecyclerView.Adapter<MyHabarRecyc
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     SharedPreferences preferences;
+    HashMap<String, Boolean> clickMap;
+    String[] okunanlar;
+    HashMap<String, Boolean> readMap;
+    FirebaseFirestore db;
+    String isWifiEnabled = "0", isOnlyWifi = "0";
 
     // data is passed into the constructor
     MyHabarRecycleListAdapter(Activity context, ArrayList<HabarObject> list) {
@@ -34,7 +52,31 @@ public class MyHabarRecycleListAdapter extends RecyclerView.Adapter<MyHabarRecyc
         this.list = list;
         this.context = context;
         this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        clickMap = new HashMap<>();
+        db = FirebaseFirestore.getInstance();
+
+        isWifiEnabled = preferences.getString("wifi_enabled", "0");
+        isOnlyWifi = preferences.getString("wifi_only", "0");
+
+//        String s = preferences.getString("read_news","");
+//        okunanlar = s.split(" ");
+        readMap = new HashMap<>();
+//        for(int i=0;i<okunanlar.length;i++){
+//            readMap.put(okunanlar[i], true);
+//        }
     }
+
+//    public void init(){
+//        String s = preferences.getString("read_news","");
+//        okunanlar = s.split(" ");
+//
+//        readMap = new HashMap<>();
+//
+//        for(int i=0;i<okunanlar.length;i++){
+//            readMap.put(okunanlar[i], true);
+//        }
+//    }
 
     // inflates the row layout from xml when needed
     @Override
@@ -48,42 +90,45 @@ public class MyHabarRecycleListAdapter extends RecyclerView.Adapter<MyHabarRecyc
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
-        holder.textview_body.setText(list.get(position).getBody());
-        holder.t_bodyFull.setText(list.get(position).getBody() + list.get(position).getBody()+ list.get(position).getBody()+ list.get(position).getBody());
-        holder.t_bodyTest.setText(list.get(position).getBody());
-        holder.t_bodyFull2.setText(list.get(position).getBody() + list.get(position).getBody()+ list.get(position).getBody()+ list.get(position).getBody());
+        holder.textview_body.setText(list.get(position).getNews_title());
+        holder.t_viewed.setText(""+list.get(position).getNews_view_number());
+        holder.t_category.setText("#"+list.get(position).getNews_category());
+        holder.t_date.setText(list.get(position).getNews_date());
 
-        if(position%5==0){
-            holder.i_image.setImageResource(R.drawable.adam);
-        }
-        else if(position%5==1){
-            holder.i_image.setImageResource(R.drawable.habarsurat);
-        }
-        else if(position%5==2){
-            holder.i_image.setImageResource(R.drawable.habarsurat2);
-        }
-        else if(position%5==3){
-            holder.i_image.setImageResource(R.drawable.habarsurat3);
-        }
-        else if(position%5==4){
-            holder.i_image.setImageResource(R.drawable.habarsurat4);
+        String url = list.get(position).getNews_img_url();
+        if(isOnlyWifi.equals("1") && isWifiEnabled.equals("0")){
+            url = "asda";
         }
 
-        holder.l_bookmark.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//        try {
+//            Glide
+//                    .with(context)
+//                    .load(new URL(url))
+//                    .centerCrop()
+//                    .placeholder(R.drawable.mini_map)
+//                    .into(holder.i_image);
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
 
-                if(list.get(position).isBookmarked){
-                    list.get(position).setBookmarked(false);
-                    holder.i_bookmark.setImageResource(R.drawable.bookmark_unselected);
-                }
-                else{
-                    list.get(position).setBookmarked(true);
-                    holder.i_bookmark.setImageResource(R.drawable.bookmark_selected);
-                }
-            }
-        });
+        Picasso.get()
+                .load(url)
+                .error(R.drawable.mini_map)
+                .placeholder(R.drawable.mini_map)
+                .fit().centerCrop()
+                .into(holder.i_image);
 
+
+
+        if(readMap.containsKey(list.get(position).getId())){
+            ColorMatrix cm = new ColorMatrix();
+            cm.setSaturation(0);
+            Toast.makeText(context, "map: " + readMap.get(list.get(position).getId()) + " id: " + list.get(position).getId(), Toast.LENGTH_SHORT).show();
+            Paint greyscalePaint = new Paint();
+            greyscalePaint.setColorFilter(new ColorMatrixColorFilter(cm));
+            // Create a hardware layer with the greyscale paint
+            holder.r_box.setLayerType(View.LAYER_TYPE_HARDWARE, greyscalePaint);
+        }
     }
 
     // total number of rows
@@ -94,7 +139,7 @@ public class MyHabarRecycleListAdapter extends RecyclerView.Adapter<MyHabarRecyc
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView textview_body, t_bodyFull, t_bodyTest, t_bodyFull2;
+        TextView textview_body, t_bodyFull, t_bodyTest, t_bodyFull2, t_viewed, t_category, t_date;
         ImageView i_image, i_bookmark;
         RelativeLayout r_box, r_box2, r_main;
         LinearLayout l_bookmark;
@@ -113,6 +158,10 @@ public class MyHabarRecycleListAdapter extends RecyclerView.Adapter<MyHabarRecyc
             r_main = itemView.findViewById(R.id.r_main);
             l_bookmark = itemView.findViewById(R.id.l_bookmark);
             i_bookmark = itemView.findViewById(R.id.i_bookmark);
+            t_viewed = itemView.findViewById(R.id.t_viewed);
+            t_category = itemView.findViewById(R.id.t_category);
+            t_date = itemView.findViewById(R.id.t_date);
+
 
             itemView.setOnClickListener(this);
         }

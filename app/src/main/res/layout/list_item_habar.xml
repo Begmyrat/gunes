@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_habar_item"
     android:padding="2dp"
     android:id="@+id/r_main"
@@ -35,8 +35,9 @@
             android:id="@+id/i_image"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/adam"/>
+            android:transitionName="profile"
+            android:scaleType="fitCenter"
+            android:src="@drawable/mini_map"/>
 
         <TextView
             android:id="@+id/t_author"
@@ -63,37 +64,32 @@
             android:textColor="@color/colorBlack"
             android:text="Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?"/>
 
-        <TextView
-            android:id="@+id/t_date"
+        <RelativeLayout
+            android:id="@+id/r_middle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="@color/colorBlack"
-            android:alpha="0.7"
-            android:layout_marginTop="5dp"
-            android:text="4 minutes"
-            android:fontFamily="@font/nunitosans_regular"
-            android:layout_marginHorizontal="10dp"
-            android:layout_below="@+id/t_body"/>
+            android:layout_below="@+id/t_body">
 
-        <org.apmem.tools.layouts.FlowLayout
-            android:id="@+id/flowLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="5dp"
-            android:alpha="0.7"
-            android:layout_marginBottom="10dp"
-            android:layout_below="@+id/t_date">
+            <TextView
+                android:id="@+id/t_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/colorBlack"
+                android:alpha="0.7"
+                android:layout_marginTop="5dp"
+                android:text="4 minutes"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/nunitosans_regular"
+                android:layout_marginHorizontal="10dp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_background_stroked"
-                android:paddingHorizontal="10dp"
                 android:layout_marginRight="10dp"
-                android:orientation="horizontal"
-                android:paddingVertical="5dp">
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -105,7 +101,7 @@
                     android:id="@+id/t_viewed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:textSize="12sp"
                     android:layout_gravity="center_vertical"
                     android:fontFamily="@font/nunitosans_regular"
@@ -114,34 +110,36 @@
 
             </LinearLayout>
 
-            <LinearLayout
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/l_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/r_middle">
+
+            <TextView
+                android:id="@+id/t_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_background_stroked"
-                android:paddingHorizontal="10dp"
-                android:orientation="horizontal"
-                android:paddingVertical="5dp">
+                android:textSize="12sp"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/nunitosans_regular"
+                android:textColor="@color/colorBlack"
+                android:text="#Umumy"/>
 
-                <TextView
-                    android:id="@+id/t_category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/nunitosans_regular"
-                    android:textColor="@color/colorBlack"
-                    android:text="Umumy"/>
-
-            </LinearLayout>
-
-        </org.apmem.tools.layouts.FlowLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/l_bookmark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="5dp"
-            android:layout_below="@+id/flowLayout"
+            android:visibility="gone"
+            android:layout_below="@+id/l_category"
             android:paddingHorizontal="10dp">
 
             <ImageView
@@ -185,7 +183,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/adam"/>
+                android:src="@drawable/mini_map"/>
 
             <TextView
                 android:id="@+id/t_category2"
@@ -291,6 +289,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/flowLayout2"
                 android:paddingVertical="5dp"
+                android:visibility="gone"
                 android:paddingHorizontal="10dp">
 
                 <ImageView

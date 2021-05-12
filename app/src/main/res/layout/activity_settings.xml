@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    tools:context=".ActivitySettings">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:elevation="5dp"
+        android:alpha="0.75"
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/left_arrow_black"
+            android:alpha="0.75"
+            android:onClick="clickBack"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_background_stroked"
+            android:backgroundTint="@color/colorWhite"
+            android:paddingHorizontal="10dp">
+
+            <TextView
+                android:id="@+id/t_company"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/nunitosans_bold"
+                android:textSize="16sp"
+                android:text="\'Group Fabrika\' tarapyndan hödürlenýär..." />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_background_stroked"
+            android:backgroundTint="@color/colorWhite"
+            android:paddingHorizontal="10dp">
+
+            <TextView
+                android:id="@+id/t_darkLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/nunitosans_regular"
+                android:textSize="16sp"
+                android:text="Garaňky tema" />
+
+            <Switch
+                android:id="@+id/s_darkLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rounded_background_stroked"
+            android:backgroundTint="@color/colorWhite"
+            android:paddingHorizontal="10dp">
+
+            <TextView
+                android:id="@+id/t_wifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/nunitosans_regular"
+                android:textSize="16sp"
+                android:text="Suratlary diňe Wifi-da görkez" />
+
+            <Switch
+                android:id="@+id/s_wifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:id="@+id/r_rate"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:paddingHorizontal="10dp"
+                android:background="@drawable/rounded_background_stroked"
+                android:backgroundTint="@color/colorWhite">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/nunitosans_regular"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="Baha ber"/>
+
+            </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/r_contact"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:paddingHorizontal="10dp"
+            android:background="@drawable/rounded_background_stroked"
+            android:backgroundTint="@color/colorWhite">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/nunitosans_regular"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"
+                android:text="Bize ýazyň"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/nunitosans_light"
+                android:layout_alignParentRight="true"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"
+                android:text="gazet@gmail.com"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Wersiýa 1.0.0"
+        android:layout_marginBottom="10dp"
+        android:textSize="16sp"
+        android:fontFamily="@font/nunitosans_regular"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

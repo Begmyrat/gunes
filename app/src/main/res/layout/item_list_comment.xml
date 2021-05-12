@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="10dp"
+    android:paddingHorizontal="20dp">
+
+    <RelativeLayout
+        android:id="@+id/r_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/i_avatar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/avatar1"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/l_like"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@+id/i_avatar"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/t_author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Begmyrat Mammedov"
+                android:textSize="14sp"
+                android:fontFamily="@font/nunitosans_black"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"/>
+
+            <TextView
+                android:id="@+id/t_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="03.05.2021"
+                android:textSize="12sp"
+                android:fontFamily="@font/nunitosans_light"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/l_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_baseline_favorite_24"/>
+
+            <TextView
+                android:id="@+id/t_like_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12"
+                android:layout_marginLeft="5dp"
+                android:textSize="14sp"
+                android:textColor="@color/colorBlack"
+                android:fontFamily="@font/nunitosans_regular"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/t_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorBlack"
+        android:fontFamily="@font/nunitosans_light"
+        android:textSize="16sp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/r_top"
+        android:text="New Recipes for Your Rotation Add vegan tantanment and roasted rhubarb cobbler to your weekend cooking plans.New Recipes for Your Rotation Add vegan tantanment and roasted rhubarb cobbler to your weekend cooking plans.New Recipes for Your Rotation Add vegan tantanment and roasted rhubarb cobbler to your weekend cooking plans."/>
+
+    <View
+        android:id="@+id/v"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:alpha="0.65"
+        android:background="@color/colorBlack"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/t_body" />
+
+
+</RelativeLayout>

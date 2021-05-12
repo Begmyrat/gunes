@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".ActivityInsertBlog">
+
+    <ImageView
+        android:id="@+id/i_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/left_arrow_black"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:onClick="clickBack"/>
+
+    <RelativeLayout
+        android:id="@+id/r_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/i_back">
+
+        <ImageView
+            android:id="@+id/i_avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/avatar1"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/i_avatar"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/t_author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Begmyrat Mammedov"
+                android:textSize="14sp"
+                android:fontFamily="@font/nunitosans_black"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"/>
+
+            <TextView
+                android:id="@+id/t_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="03.05.2021"
+                android:textSize="12sp"
+                android:fontFamily="@font/nunitosans_light"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/r_top"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Blog ýazgysy:"
+                android:fontFamily="@font/nunitosans_bold"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"/>
+
+            <EditText
+                android:id="@+id/e_blog"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:hint="Blog ýazgysyny şu ýere ýazyp bilersiňiz..."
+                android:textSize="16sp"
+                android:gravity="left|top"
+                android:padding="10dp"
+                android:textColor="@color/colorBlack"
+                android:fontFamily="@font/nunitosans_regular"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:text="Paýlaş"
+                android:onClick="clickInsert"
+                android:textColor="@color/colorWhite"
+                android:background="@color/colorAccent"/>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</RelativeLayout>

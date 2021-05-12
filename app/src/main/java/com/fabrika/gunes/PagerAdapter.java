@@ -31,21 +31,4 @@ public class PagerAdapter extends FragmentPagerAdapter {
         return fragmentList.size();
     }
 
-    // This determines the title for each tab
-//    @Override
-//    public CharSequence getPageTitle(int position) {
-//        // Generate title based on item position
-//        switch (position) {
-//            case 0:
-//                return "1";
-//            case 1:
-//                return "2";
-//            case 2:
-//                return "2";
-//            case 3:
-//                return "3";
-//            default:
-//                return null;
-//        }
-//    }
 }

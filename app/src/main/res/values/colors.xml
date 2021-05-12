@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">#355c7d</color>
+    <color name="colorPrimaryDark">#725a7a</color>
+    <color name="colorAccent">#fb5065</color>
+    <color name="colorAccentDark">#c56c86</color>
 
     <color name="colorBlack">#000</color>
     <color name="colorWhite">#fff</color>
-
     <color name="colorBackground">#fff</color>
+    <color name="colorBackgroundCard">#e7e2e0</color>
+    <color name="colorBackgroundSettings">#F8F8F8</color>
 
     <color name="colorPalette1">#f3f4ed</color>
+<!--    <color name="colorSplashBackground">#f8f5f1</color>-->
+    <color name="colorSplashBackground">#ffffff</color>
+
+    <color name="colorPalette2">#deeaee</color>
+    <color name="colorPalette3">#b1cbbb</color>
+    <color name="colorPalette4">#c0ded9</color>
+    <color name="colorPalette5">#c8c3cc</color>
+    <color name="colorPalette6">#fbefcc</color>
+    <color name="colorPalette7">#d6d4e0</color>
+    <color name="colorPalette8">#f2e394</color>
+    <color name="colorPalette9">#bccad6</color>
+    <color name="colorPalette10">#c5d5c5</color>
+    <color name="colorPalette11">#d9ecd0</color>
+    <color name="colorPalette12">#b0aac0</color>
+
+    <color name="colorDay">#00ADFF</color>
+    <color name="colorNight">#4E426A</color>
 
 </resources>

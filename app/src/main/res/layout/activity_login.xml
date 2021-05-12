@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".ActivityLogin">
+
+    <ImageView
+        android:id="@+id/i_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="clickBack"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/left_arrow_black"/>
+
+    <EditText
+        android:id="@+id/e_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunitosans_regular"
+        android:hint="Size haýsy lakamy dakaly?"
+        android:textColorHint="@color/colorBlack"
+        android:paddingVertical="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/i_back"
+        android:textSize="18sp"/>
+
+    <GridView
+        android:id="@+id/gridview_avatar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="3"
+        android:paddingHorizontal="30dp"
+        android:layout_marginVertical="20dp"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:verticalSpacing="30dp"
+        android:horizontalSpacing="10dp"
+        android:scrollbarSize="0dp"
+        android:layout_above="@+id/b_send"
+        android:layout_below="@+id/e_username"/>
+
+    <Button
+        android:id="@+id/b_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_alignParentBottom="true"
+        android:text="Tamamla"
+        android:onClick="clickSend"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/rounded_background"
+        android:backgroundTint="@color/colorAccent"
+        android:fontFamily="@font/nunitosans_bold"/>
+
+
+</RelativeLayout>

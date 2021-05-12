@@ -1,57 +1,78 @@
 package com.fabrika.gunes;
 
+import android.app.ActivityOptions;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.preference.PreferenceManager;
-import android.transition.Fade;
-import android.transition.PathMotion;
-import android.transition.Slide;
-import android.transition.Transition;
-import android.transition.TransitionManager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
+import android.widget.AbsListView;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
 
 public class FragmentHabar extends Fragment implements MyHabarRecycleListAdapter.ItemClickListener{
 
-    View view;
+    public static View view;
     Toolbar toolbar;
     EditText e_search;
-    Boolean isSearchVisible;
-    RecyclerView recyclerView;
-    ArrayList<HabarObject> habarList, habarListSearch;
-    MyHabarRecycleListAdapter habarAdapter;
+    public static RecyclerView recyclerView;
+    public static ArrayList<HabarObject> habarList, habarListSearch;
+    public static MyHabarRecycleListAdapter habarAdapter;
     StaggeredGridLayoutManager layoutManager;
-    MainActivity activity;
+    public static MainActivity activity;
     HashMap<String, Boolean> clickMap;
     SharedPreferences preferences;
 
+    public static FirebaseFirestore db;
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
+    FloatingActionButton floatingActionButton;
+    public static long news_number=0;
+    SwipeRefreshLayout myNestedScroll;
+    NestedScrollView nestedScrollView;
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,21 +81,106 @@ public class FragmentHabar extends Fragment implements MyHabarRecycleListAdapter
 
         prepareMe();
 
+        nestedScrollView = (NestedScrollView) view.findViewById(R.id.nested);;
+
+        myNestedScroll = view.findViewById(R.id.pullToRefresh);
+
+
+        myNestedScroll.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getHabar(); // your code
+                myNestedScroll.setRefreshing(false);
+            }
+        });
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // for admin
+//                insertNews();
+
+                startActivity(new Intent(activity.getApplicationContext(), ActivitySettings.class));
+            }
+        });
+
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
+                if (scrollY > oldScrollY) {
+//                    Log.i(TAG, "Scroll DOWN");
+                }
+                if (scrollY < oldScrollY) {
+//                    Log.i(TAG, "Scroll UP");
+                }
+
+                if (scrollY == 0) {
+//                    Log.i(TAG, "TOP SCROLL");
+                }
+
+                if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
+                    getHabar();
+                }
+            }
+        });
+
         // Inflate the layout for this fragment
         return view;
     }
 
+    private void insertNews() {
+
+        Map<String, Object> info = new HashMap<>();
+        info.put("news_author", "Atavatan Türkmenistan");
+        info.put("news_body", "");
+        info.put("news_category", "Dünýä");
+        info.put("news_date", "06.05.2021");
+        info.put("news_img_url", "");
+        info.put("news_title", "");
+        info.put("news_view_number", 0);
+        info.put("news_id", news_number);
+
+        db.collection("News")
+                .document(""+news_number)
+                .set(info);
+
+        news_number++;
+
+        Map<String, Object> article_num = new HashMap<>();
+        article_num.put("news_number", news_number);
+
+        db.collection("News")
+                .document("0")
+                .set(article_num);
+
+    }
+
     private void prepareMe() {
+
+//        ((MainActivity)getActivity()).updateStatusBarColor("#ffffff");
+
         setHasOptionsMenu(true);//Add this sentence to the menu
         toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setElevation(0);
         activity = (MainActivity) getActivity();
         activity.setSupportActionBar(toolbar);
+        preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        isWifiEnabled();
 
+        floatingActionButton = view.findViewById(R.id.floatingActionButton);
+
+        db = FirebaseFirestore.getInstance();
 
         e_search = view.findViewById(R.id.e_search);
         toolbar.setTitle("Habarlar");
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getHabar();
+            }
+        });
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(false);
 //        recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
@@ -86,139 +192,193 @@ public class FragmentHabar extends Fragment implements MyHabarRecycleListAdapter
         habarAdapter = new MyHabarRecycleListAdapter(activity, habarList);
         recyclerView.setAdapter(habarAdapter);
         habarAdapter.setClickListener(this);
-        preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+//        SharedPreferences.Editor editor = preferences.edit();
+//        editor.putString("read_news", "");
+//        editor.commit();
 
         clickMap = new HashMap<>();
     }
 
-    private void getHabar() {
+    public static void getHabar() {
 
-        habarList.add(new HabarObject("1","1","1","1","goysana Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("2","1","1","1","Lübnan'daki son protestolar Hizbullah ı mı?",""));
-        habarList.add(new HabarObject("3","1","1","1","Lübnan'daki son protestolar Hizbullah h ve Emel'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("4","1","1","1","Lübnan'daki son protestolar Hizbullah ve Emel'inestolar Hizbullah ve Emel'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("5","1","1","1","Lübnan'daki hakyky son protestolar Hizbullah ve Elar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki so'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("6","1","1","1","Lübnan'daki son protestolar Himı?otestolar Hi otestolar Hi",""));
-        habarList.add(new HabarObject("7","1","1","1","Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("8","1","1","1","Lübnan'daki son protestolar Hizbullah ı mı?",""));
-        habarList.add(new HabarObject("9","1","1","1","Lübnan'daki son protestolar Hizbullah h ve Emel'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("10","2","1","1","Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("11","2","1","1","Lübnan'daki son protestolar Hizbullah vki so'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("12","2","1","1","Lübnan'daki son protestolar Himı?otestolar Hi otestolar Hi",""));
-        habarList.add(new HabarObject("13","2","1","1","Lübnan'daki yasama son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("14","2","1","1","Lübnan'daki son protestolar Hizbullah ı mı?",""));
-        habarList.add(new HabarObject("15","2","1","1","Lübnan'daki son protestolar Hizbullah h ve Emel'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("16","2","1","1","Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki son protestolar Hizbullah ve Emel'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("17","2","1","1","Lübnan'daki son protestolar Hizbullah ve Elar Hizbullah ve Emel'in Avn'a mesajı mı?Lübnan'daki so'in Avn'a mesajı mı?",""));
-        habarList.add(new HabarObject("18","2","1","1","Lübnan'daki son protestolar Himı?otestolar Hi otestolar Hi",""));
+        view.findViewById(R.id.llProgressBar).setVisibility(View.VISIBLE);
 
+//        habarList.clear();
+
+        int size = habarList.size();
+        if(size>0)
+            size = size -1;
+
+        if(habarList.size()==0){
+            db.collection("News").orderBy("news_id", Query.Direction.DESCENDING).limit(10).get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @RequiresApi(api = Build.VERSION_CODES.N)
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            if(!queryDocumentSnapshots.isEmpty()){
+
+                                List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+
+                                for(DocumentSnapshot d : list){
+                                    HabarObject habarObject = d.toObject(HabarObject.class);
+                                    habarObject.setId(d.getId());
+
+                                    if(habarObject.getId().equals("0")){
+                                        news_number = habarObject.getNews_number();
+//                                    Toast.makeText(activity, ""+news_number, Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        habarList.add(habarObject);
+                                    }
+                                }
+
+                                habarAdapter.notifyDataSetChanged();
+
+                                view.findViewById(R.id.llProgressBar).setVisibility(View.GONE);
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(activity, "error", Toast.LENGTH_SHORT).show();
+                    view.findViewById(R.id.llProgressBar).setVisibility(View.GONE);
+                }
+            });
+        }
+        else{
+            Toast.makeText(activity, "size: " + size, Toast.LENGTH_SHORT).show();
+            db.collection("News").orderBy("news_id", Query.Direction.DESCENDING).startAt(size).limit(10).get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @RequiresApi(api = Build.VERSION_CODES.N)
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            if(!queryDocumentSnapshots.isEmpty()){
+
+                                List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+
+                                for(DocumentSnapshot d : list){
+                                    HabarObject habarObject = d.toObject(HabarObject.class);
+                                    habarObject.setId(d.getId());
+
+                                    if(habarObject.getId().equals("0")){
+                                        news_number = habarObject.getNews_number();
+//                                    Toast.makeText(activity, ""+news_number, Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        habarList.add(habarObject);
+                                    }
+                                }
+
+                                habarAdapter.notifyDataSetChanged();
+
+                                view.findViewById(R.id.llProgressBar).setVisibility(View.GONE);
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(activity, "error", Toast.LENGTH_SHORT).show();
+                    view.findViewById(R.id.llProgressBar).setVisibility(View.GONE);
+                }
+            });
+        }
+    }
+
+    public static void getHabarRange() {
+
+//        habarList.clear();
+
+        db.collection("News").orderBy("news_id", Query.Direction.DESCENDING).startAfter(habarList.get(habarList.size()-1)).limit(10).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if(!queryDocumentSnapshots.isEmpty()){
+
+                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+
+                            for(DocumentSnapshot d : list){
+                                HabarObject habarObject = d.toObject(HabarObject.class);
+                                habarObject.setId(d.getId());
+
+                                if(habarObject.getId().equals("0")){
+                                    news_number = habarObject.getNews_number();
+//                                    Toast.makeText(activity, ""+news_number, Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    habarList.add(habarObject);
+                                }
+                            }
+
+//                            Collections.reverse(habarList);
+
+                            habarList.sort((schedule1, schedule2)->{
+                                int returnValue = 0;
+                                if(schedule1.getNews_id() > schedule2.getNews_id())	return -1;
+                                else if(schedule1.getNews_id() < schedule2.getNews_id())	return 1;
+                                return returnValue;
+                            });
+
+                            habarAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(activity, "error", Toast.LENGTH_SHORT).show();
+                view.findViewById(R.id.llProgressBar).setVisibility(View.GONE);
+            }});
     }
 
     @Override
     public void onItemClick(View view, int position) {
 
-        if(clickMap.containsKey(habarList.get(position).getId())){
-            // Create a paint object with 0 saturation (black and white)
-            ColorMatrix cm = new ColorMatrix();
-            cm.setSaturation(0);
-            Paint greyscalePaint = new Paint();
-            greyscalePaint.setColorFilter(new ColorMatrixColorFilter(cm));
-            // Create a hardware layer with the greyscale paint
-            view.setLayerType(View.LAYER_TYPE_HARDWARE, greyscalePaint);
-        }
+        SharedPreferences.Editor editor = preferences.edit();
+        String s = preferences.getString("read_news","");
+        s += habarList.get(position).getId() + " ";
+        editor.putString("read_news", s);
+        editor.commit();
 
-        if(clickMap.containsKey(habarList.get(position).getId()) && clickMap.get(habarList.get(position).getId())){
-            Transition transition = new Slide();
-            transition.setDuration(500);
-            transition.addTarget(view.findViewById(R.id.r_box2));
-            TransitionManager.beginDelayedTransition((ViewGroup) view, transition);
-            view.findViewById(R.id.r_box2).setVisibility(View.INVISIBLE);
-            clickMap.put(habarList.get(position).getId(), false);
-        }
-        else if(clickMap.containsKey(habarList.get(position).getId()) && !clickMap.get(habarList.get(position).getId())){
-            Transition transition = new Slide();
-            transition.setDuration(500);
-            transition.addTarget(view.findViewById(R.id.r_box2));
-            TransitionManager.beginDelayedTransition((ViewGroup) view, transition);
-            view.findViewById(R.id.r_box2).setVisibility(View.VISIBLE);
-            clickMap.put(habarList.get(position).getId(), true);
-        }
-        else{
-            Transition transition = new Slide();
-            transition.setDuration(500);
-            transition.addTarget(view.findViewById(R.id.r_box2));
-            TransitionManager.beginDelayedTransition((ViewGroup) view, transition);
-            view.findViewById(R.id.r_box2).setVisibility(View.VISIBLE);
-            clickMap.put(habarList.get(position).getId(), true);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean(""+habarList.get(position).getId(), true);
-            editor.commit();
-        }
+        habarList.get(position).setNews_view_number(habarList.get(position).getNews_view_number()+1);
+
+        Intent intent = new Intent(activity.getApplicationContext(), ActivityMakala.class);
+        intent.putExtra("type", "News");
+        intent.putExtra("position", position);
+        intent.putExtra("id", habarList.get(position).getId());
+        intent.putExtra("category", habarList.get(position).getNews_category());
+        intent.putExtra("date", habarList.get(position).getNews_date());
+        intent.putExtra("title", habarList.get(position).getNews_title());
+        intent.putExtra("author", habarList.get(position).getNews_author());
+        intent.putExtra("body", habarList.get(position).getNews_body());
+        intent.putExtra("img_url", habarList.get(position).getNews_img_url());
+
+        startActivity(intent);
     }
 
     @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+    public void onResume() {
+        super.onResume();
 
-        activity.getMenuInflater().inflate(R.menu.toolbar_items, menu);
-        MenuItem menuItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setQueryHint("Gözle");
-        searchView.setMaxWidth(Integer.MAX_VALUE);
+//        isWifiEnabled();
+//
+//        habarAdapter.notifyDataSetChanged();
+    }
 
-        MenuItem.OnActionExpandListener onActionExpandListener = new MenuItem.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                getHabar();
-                habarAdapter.notifyDataSetChanged();
-                return false;
-            }
+    public boolean isWifiEnabled(){
+        ConnectivityManager cm = (ConnectivityManager) activity.getApplicationContext().getSystemService(
+                Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifiNetwork = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                getHabar();
-                habarAdapter.notifyDataSetChanged();
-                return false;
-            }
-        };
-
-        menu.findItem(R.id.action_search).setOnActionExpandListener(onActionExpandListener);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                getHabar();
-                Toast.makeText(activity, "query: " + query, Toast.LENGTH_SHORT).show();
-                habarListSearch.clear();
-                for(int i=0;i<habarList.size();i++){
-                    HabarObject h = habarList.get(i);
-                    System.out.println("helloID: " + h.getId());
-                    System.out.println("helloBODY: " + h.getBody());
-                    System.out.println("helloCAT: " + h.getCategory());
-                    System.out.println("helloTIT: " + h.getTitle());
-                    System.out.println("helloWRIT: " + h.getWriter());
-                    System.out.println();
-
-                    if(h!=null)
-                        if(h.getBody().toLowerCase().contains(query) || h.getCategory().toLowerCase().contains(query) ||
-                                h.getTitle().toLowerCase().contains(query) || h.getWriter().toLowerCase().contains(query)){
-                            habarListSearch.add(h);
-                        }
-                }
-                habarList.clear();
-
-                for(int i=0;i<habarListSearch.size();i++){
-                    habarList.add(habarListSearch.get(i));
-                }
-                habarAdapter.notifyDataSetChanged();
-
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
-        super.onCreateOptionsMenu(menu, inflater);
+        if (wifiNetwork != null && wifiNetwork.isConnected()) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("wifi_enabled", "1");
+            editor.commit();
+            return true;
+        }
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("wifi_enabled", "0");
+        editor.commit();
+        return false;
     }
 }
